@@ -1,15 +1,16 @@
-use tokio;
-use warp::Filter;
+use actix_web::{web, App, HttpServer, Responder};
 
-#[tokio::main]
-async fn main() {
-    let filter= warp::path!()
-    .map(|| warp::reply::html("Hello, World!"));
-
-    println!("Server started at http://localhost:3030/hello/<name>");
-
-    warp::serve(filter)
-    .run(([127, 0, 0, 1], 3030))
-    .await;
+async fn hello() -> impl Responder {
+    "Hello, world!"
 }
 
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    HttpServer::new(|| {
+        App::new()
+            .route("/", web::get().to(hello))
+    })
+    .bind("0.0.0.0:3030")? // Asegúrate de que está configurado para escuchar en el puerto 3030
+    .run()
+    .await
+}
