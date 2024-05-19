@@ -10,7 +10,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .route("/", web::get().to(hello))
     })
-    .bind("0.0.0.0:3030")? // Asegúrate de que está configurado para escuchar en el puerto 3030
+    .bind("0.0.0.0:3030")? 
     .run()
     .await
 }
